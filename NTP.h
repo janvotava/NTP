@@ -38,9 +38,9 @@
 #define RULE_DST_MESSAGE "no DST rule"
 #define RULE_STD_MESSAGE "no STD rule"
 
-//enum week_t {Last, First, Second, Third, Fourth}; 
-//enum dow_t {Sun, Mon, Tue, Wed, Thu, Fri, Sat};
-//enum month_t {Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec};
+enum week_t {Last, First, Second, Third, Fourth};
+enum dow_t {Sun, Mon, Tue, Wed, Thu, Fri, Sat};
+enum month_t {Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec};
 
 enum NTPUpdReturnCode {NO_UPD_TOO_SOON = 0, UPD_SUCCESS = 1, NO_UPD_ERROR = 2};
 
@@ -48,34 +48,34 @@ class NTP {
   public:
     /**
      * @brief constructor for the NTP object
-     * 
-     * @param udp 
+     *
+     * @param udp
      */
     NTP(UDP& udp);
 
     /**
      * @brief destructor for the NTP object
-     * 
+     *
      */
     ~NTP();
 
     /**
      * @brief starts the underlying UDP client with the default local port
-     * 
+     *
      * @param blocking function blocks until answer from NTP server is reached
      */
     void begin(bool blocking = true);
 
     /**
      * @brief stops the underlying UDP client
-     * 
+     *
      */
     void stop();
 
     /**
      * @brief This should be called in the main loop of your application. By default an update from the NTP Server is only
      * made every 60 seconds. This can be configured in the NTPTime constructor.
-     * 
+     *
      * @return NO_UPD_TOO_SOON on no update (time interval)
      * @return UPD_SUCCESS on update succes
      * @return NO_UPD_ERROR on no update (sync failure)
@@ -84,22 +84,22 @@ class NTP {
 
     /**
      * @brief set another server than the default "pool.ntp.org"
-     * 
+     *
      * @param server name of the NTP server
      */
     void ntpServer(const char* server);
 
     /**
      * @brief set the update interval
-     * 
+     *
      * @param updateInterval in ms, default = 60000ms
      */
     void updateInterval(uint32_t interval);
 
     /**
      * @brief set the rule for DST (daylight saving time)
-     * start date of DST 
-     * 
+     * start date of DST
+     *
      * @param tzName name of the time zone
      * @param week Last, First, Second, Third, Fourth (0 - 4)
      * @param wday Sun, Mon, Tue, Wed, Thu, Fri, Sat (0 - 7)
@@ -111,7 +111,7 @@ class NTP {
 
     /**
      * @brief get the DST time as a ctime string
-     * 
+     *
      * @return char* time string
      */
     const char* ruleDST();
@@ -119,7 +119,7 @@ class NTP {
     /**
      * @brief set the rule for STD (standard day)
      * end date of DST
-     * 
+     *
      * @param tzName name of the time zone
      * @param week Last, First, Second, Third, Fourth (0 - 4)
      * @param wday Sun, Mon, Tue, Wed, Thu, Fri, Sat (0 - 7)
@@ -131,101 +131,101 @@ class NTP {
 
     /**
      * @brief get the STD time as a ctime string
-     * 
+     *
      * @return char* time string
      */
     const char* ruleSTD();
 
     /**
      * @brief get the name of the timezone
-     * 
+     *
      * @return char* name of the timezone
      */
     const char* tzName();
 
    /**
-     * @brief set the timezone manually 
+     * @brief set the timezone manually
      * this should used if there is no DST!
-     * 
-     * @param tzHours 
-     * @param tzMinutes 
+     *
+     * @param tzHours
+     * @param tzMinutes
      */
     void timeZone(int8_t tzHours, int8_t tzMinutes = 0);
 
     /**
-     * @brief set daylight saving manually! 
+     * @brief set daylight saving manually!
      * use in conjunction with timeZone, when there is no DST!
-     * 
-     * @param dstZone 
+     *
+     * @param dstZone
      */
     void isDST(bool dstZone);
 
     /**
      * @brief returns the DST state
-     * 
+     *
      * @return int 1 if summertime, 0 no summertime
      */
     bool isDST();
-	
+
     /**
      * @brief get the Unix epoch timestamp
-     * 
+     *
      * @return time_t timestamp
      */
     time_t epoch();
 
     /**
      * @brief get the year
-     * 
+     *
      * @return int year
      */
     int16_t year();
 
     /**
      * @brief get the month
-     * 
-     * @return int month, 1 = january 
+     *
+     * @return int month, 1 = january
      */
     int8_t month();
 
     /**
      * @brief get the day of a month
-     * 
+     *
      * @return int day
      */
     int8_t day();
 
     /**
      * @brief get the day of a week
-     * 
+     *
      * @return int day of the week, 0 = sunday
      */
     int8_t weekDay();
 
     /**
      * @brief get the hour of the day
-     * 
-     * @return int 
+     *
+     * @return int
      */
     int8_t hours();
 
     /**
      * @brief get the minutes of the hour
-     * 
+     *
      * @return int minutes
      */
     int8_t minutes();
 
     /**
      * @brief get the seconds of a minute
-     * 
+     *
      * @return int seconds
      */
-    int8_t seconds();    
+    int8_t seconds();
 
     /**
      * @brief returns a formatted string
-     * 
+     *
      * @param format for strftime
      * @return char* formated time string
      */
@@ -233,11 +233,11 @@ class NTP {
 
     /**
      * @brief for debug purposes you can make an offset
-     * 
-     * @param days 
-     * @param hours 
-     * @param minutes 
-     * @param seconds 
+     *
+     * @param days
+     * @param hours
+     * @param minutes
+     * @param seconds
      */
     void offset(int16_t days, int8_t hours, int8_t minutes, int8_t seconds);
 
@@ -259,7 +259,7 @@ class NTP {
     int16_t dstOffset = 0;
     bool dstZone = true;
     uint32_t utcTime = 0;
-    int32_t diffTime;    
+    int32_t diffTime;
     time_t utcSTD, utcDST;
     time_t dstTime, stdTime;
     uint16_t yearDST;
@@ -278,7 +278,7 @@ class NTP {
     void beginDST();
     time_t calcDateDST(struct ruleDST rule, int year);
     bool summerTime();
-   
+
 };
 
 #endif
